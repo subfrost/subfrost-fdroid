@@ -1,0 +1,61 @@
+# Google Cloud Build configuration for F-Droid repository
+# Triggered on push to main branch or manual trigger
+
+steps:
+  # Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/fdroid-repo:$COMMIT_SHA'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/fdroid-repo:latest'
+      - '.'
+
+  # Push to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'gcr.io/$PROJECT_ID/fdroid-repo:$COMMIT_SHA'
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'gcr.io/$PROJECT_ID/fdroid-repo:latest'
+
+  # Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'fdroid-repo'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/fdroid-repo:$COMMIT_SHA'
+      - '--region'
+      - '${_REGION}'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--port'
+      - '8080'
+      - '--memory'
+      - '256Mi'
+      - '--cpu'
+      - '1'
+      - '--min-instances'
+      - '0'
+      - '--max-instances'
+      - '5'
+      - '--set-env-vars'
+      - 'FDROID_REPO_URL=https://f-droid.subfrost.io/fdroid/repo'
+
+substitutions:
+  _REGION: us-central1
+
+images:
+  - 'gcr.io/$PROJECT_ID/fdroid-repo:$COMMIT_SHA'
+  - 'gcr.io/$PROJECT_ID/fdroid-repo:latest'
+
+options:
+  logging: CLOUD_LOGGING_ONLY

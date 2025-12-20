@@ -1,0 +1,32 @@
+# Docker Compose for local development and testing
+version: '3.8'
+
+services:
+  fdroid:
+    build: .
+    container_name: subfrost-fdroid
+    ports:
+      - "8080:8080"
+    volumes:
+      # Persist repository data
+      - fdroid-repo:/var/www/fdroid/repo
+      - fdroid-keystore:/var/www/fdroid/keystore
+      - fdroid-metadata:/var/www/fdroid/metadata
+      # Mount local APKs for easy updates
+      - ./apks:/apks:ro
+    environment:
+      - FDROID_REPO_URL=https://f-droid.subfrost.io/fdroid/repo
+      - FDROID_KEYSTORE_PASS=${FDROID_KEYSTORE_PASS:-changeme}
+      - FDROID_KEY_PASS=${FDROID_KEY_PASS:-changeme}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  fdroid-repo:
+  fdroid-keystore:
+  fdroid-metadata:

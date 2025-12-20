@@ -1,0 +1,20 @@
+# Secrets - never commit these
+keystore/
+*.keystore
+*.env
+
+# Temporary files
+tmp/
+*.tmp
+
+# Build artifacts
+*.pyc
+__pycache__/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Don't ignore repo directory - it contains the F-Droid index
+!repo/

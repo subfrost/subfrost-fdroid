@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subfrost F-Droid Repository</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 600px;
+            text-align: center;
+        }
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, #00d9ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .subtitle {
+            color: #8892b0;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        .section {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+        .section h3 {
+            color: #00ff88;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .repo-url {
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            word-break: break-all;
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            font-size: 0.95rem;
+            color: #00d9ff;
+        }
+        .repo-url a {
+            color: #00d9ff;
+            text-decoration: none;
+        }
+        .repo-url a:hover {
+            text-decoration: underline;
+        }
+        .instructions ol {
+            padding-left: 1.5rem;
+            color: #ccd6f6;
+        }
+        .instructions li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+        .fingerprint-box {
+            background: #0a0a14;
+            border: 1px solid #00ff88;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            font-size: 0.75rem;
+            word-break: break-all;
+            color: #00ff88;
+            letter-spacing: 1px;
+        }
+        .fingerprint-label {
+            color: #8892b0;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(90deg, #00d9ff, #00ff88);
+            color: #000;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(0, 217, 255, 0.3);
+        }
+        .qr-section {
+            margin-top: 1rem;
+        }
+        .qr-section img {
+            max-width: 150px;
+            border-radius: 8px;
+            background: white;
+            padding: 8px;
+        }
+        footer {
+            margin-top: 3rem;
+            color: #495670;
+            font-size: 0.85rem;
+        }
+        footer a {
+            color: #00d9ff;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">&#x2744;</div>
+        <h1>Subfrost</h1>
+        <p class="subtitle">Official F-Droid Repository</p>
+
+        <div class="section">
+            <h3>Repository URL</h3>
+            <div class="repo-url">
+                <a href="fdroidrepos://f-droid.subfrost.io/fdroid/repo?fingerprint=6B4042D2CA47800272055F3B42299BB091711C0BCCFA9BEA02F056570464F21">
+                    https://f-droid.subfrost.io/fdroid/repo
+                </a>
+            </div>
+        </div>
+
+        <div class="section instructions">
+            <h3>How to Add</h3>
+            <ol>
+                <li>Open the F-Droid app on your Android device</li>
+                <li>Go to <strong>Settings</strong> &rarr; <strong>Repositories</strong></li>
+                <li>Tap the <strong>+</strong> button to add a new repository</li>
+                <li>Enter the repository URL above</li>
+                <li>Verify the fingerprint matches below</li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <h3>Repository Fingerprint</h3>
+            <span class="fingerprint-label">SHA-256 (verify this matches in F-Droid)</span>
+            <div class="fingerprint-box">
+                6B 40 42 D2 CA 47 80 02 72 05 5F 3B 42 29 9B B0<br>
+                91 71 1C 0B CC FA 9B EA 02 F0 56 57 04 6E 4F 21
+            </div>
+        </div>
+
+        <a href="fdroidrepos://f-droid.subfrost.io/fdroid/repo?fingerprint=6B4042D2CA47800272055F3B42299BB091711C0BCCFA9BEA02F056570464F21" class="btn">
+            Open in F-Droid
+        </a>
+
+        <footer>
+            <p>Powered by <a href="https://subfrost.io">Subfrost</a></p>
+            <p style="margin-top: 0.5rem; color: #333;">Yes, this page is intentionally minimal.</p>
+        </footer>
+    </div>
+</body>
+</html>

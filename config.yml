@@ -1,0 +1,28 @@
+# F-Droid Repository Configuration for Subfrost
+# https://f-droid.org/docs/Setup_an_F-Droid_App_Repo/
+
+# Repository metadata
+repo_url: "https://f-droid.subfrost.io/fdroid/repo"
+repo_name: "Subfrost F-Droid Repository"
+repo_description: |
+  Official F-Droid repository for Subfrost applications.
+  This repository contains Subtun and other Subfrost Android apps.
+
+# Archive settings (disabled for simple repo)
+archive_older: 0
+
+# Signing configuration
+keystore: "keystore/fdroid.keystore"
+keystorepass: "hEksPrsRr1Vpc7HpXZflO6BM4LXdHfdg"
+keypass: "hEksPrsRr1Vpc7HpXZflO6BM4LXdHfdg"
+keydname: "CN=Subfrost F-Droid, OU=Repository, O=Subfrost, L=Internet, C=XX"
+repo_keyalias: "fdroid"
+
+# Accept pre-signed APKs
+allow_disabled_algorithms: true
+
+# App categories
+categories:
+  - VPN
+  - Security
+  - Privacy

@@ -1,0 +1,35 @@
+Categories:
+  - Security
+  - Internet
+
+License: GPL-3.0-or-later
+AuthorName: Subfrost
+AuthorEmail: support@subfrost.io
+WebSite: https://subfrost.io
+SourceCode: https://github.com/subfrost/subtun-android
+IssueTracker: https://github.com/subfrost/subtun-android/issues
+
+AutoName: Subtun
+
+Summary: Secure VPN tunnel powered by Subfrost
+
+Description: |
+  Subtun is a high-performance VPN application built on the Subfrost
+  protocol. It provides secure, encrypted tunneling for your Android device.
+
+  Features:
+  * Fast and reliable VPN connection
+  * Modern cryptographic protocols
+  * Privacy-focused design
+  * Open source and auditable
+
+RepoType: git
+Repo: https://github.com/subfrost/subtun-android
+
+CurrentVersion: 0.1.0
+CurrentVersionCode: 1
+
+Builds: []
+
+AutoUpdateMode: None
+UpdateCheckMode: None
