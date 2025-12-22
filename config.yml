@@ -2,7 +2,7 @@
 # https://f-droid.org/docs/Setup_an_F-Droid_App_Repo/
 
 # Repository metadata
-repo_url: "https://f-droid.subfrost.io/fdroid/repo"
+repo_url: "https://f-droid.subfrost.io/repo"
 repo_name: "Subfrost F-Droid Repository"
 repo_description: |
   Official F-Droid repository for Subfrost applications.
