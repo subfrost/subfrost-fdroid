@@ -41,16 +41,24 @@ jobs:
       run: pip install fdroidserver
 
     - name: Download APK
+      env:
+        GH_TOKEN: ${{ secrets.SUBFROST_ACCESS_TOKEN }}
       run: |
         VERSION="${{ github.event.inputs.version || github.event.client_payload.version }}"
-        APK_URL="${{ github.event.inputs.apk_url || github.event.client_payload.apk_url }}"
 
         echo "Downloading APK for version: $VERSION"
-        echo "URL: $APK_URL"
 
         # Remove old APKs and download new one
         rm -f repo/*.apk
-        curl -L -o "repo/io.subfrost.subtun_${VERSION}.apk" "$APK_URL"
+
+        # Use gh to download from private repo
+        gh release download "$VERSION" \
+          --repo subfrost/subfrost-native \
+          --pattern "app-universal-release-aligned-signed.apk" \
+          --dir repo/
+
+        # Rename to include version for F-Droid
+        mv repo/app-universal-release-aligned-signed.apk "repo/io.subfrost.subtun_${VERSION}.apk"
         ls -la repo/
 
     - name: Restore keystore from secrets
