@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subfrost F-Droid Repository</title>
+    <title>SUBFROST F-Droid Repository</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -32,6 +33,8 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            font-weight: 800;
+            letter-spacing: 2px;
         }
         .subtitle {
             color: #8892b0;
@@ -45,6 +48,9 @@
             padding: 1.5rem;
             margin: 1.5rem 0;
             text-align: left;
+        }
+        .section.center {
+            text-align: center;
         }
         .section h3 {
             color: #00ff88;
@@ -109,14 +115,20 @@
             transform: scale(1.05);
             box-shadow: 0 0 30px rgba(0, 217, 255, 0.3);
         }
-        .qr-section {
-            margin-top: 1rem;
-        }
-        .qr-section img {
-            max-width: 150px;
-            border-radius: 8px;
+        #qrcode {
+            display: inline-block;
+            padding: 12px;
             background: white;
-            padding: 8px;
+            border-radius: 12px;
+            margin-top: 0.5rem;
+        }
+        #qrcode canvas {
+            display: block;
+        }
+        .qr-hint {
+            color: #8892b0;
+            font-size: 0.85rem;
+            margin-top: 1rem;
         }
         footer {
             margin-top: 3rem;
@@ -135,8 +147,14 @@
 <body>
     <div class="container">
         <div class="logo">&#x2744;</div>
-        <h1>Subfrost</h1>
+        <h1>SUBFROST</h1>
         <p class="subtitle">Official F-Droid Repository</p>
+
+        <div class="section center">
+            <h3>Scan to Add Repository</h3>
+            <div id="qrcode"></div>
+            <p class="qr-hint">Scan with F-Droid app to add repository</p>
+        </div>
 
         <div class="section">
             <h3>Repository URL</h3>
@@ -148,7 +166,7 @@
         </div>
 
         <div class="section instructions">
-            <h3>How to Add</h3>
+            <h3>How to Add Manually</h3>
             <ol>
                 <li>Open the F-Droid app on your Android device</li>
                 <li>Go to <strong>Settings</strong> &rarr; <strong>Repositories</strong></li>
@@ -172,9 +190,20 @@
         </a>
 
         <footer>
-            <p>Powered by <a href="https://subfrost.io">Subfrost</a></p>
-            <p style="margin-top: 0.5rem; color: #333;">Yes, this page is intentionally minimal.</p>
+            <p>Powered by <a href="https://subfrost.io">SUBFROST</a></p>
         </footer>
     </div>
+
+    <script>
+        const repoUrl = 'fdroidrepos://f-droid.subfrost.io/fdroid/repo?fingerprint=6B4042D2CA47800272055F3B42299BB091711C0BCCFA9BEA02F056570464F21';
+        QRCode.toCanvas(document.getElementById('qrcode').appendChild(document.createElement('canvas')), repoUrl, {
+            width: 180,
+            margin: 0,
+            color: {
+                dark: '#000000',
+                light: '#ffffff'
+            }
+        });
+    </script>
 </body>
 </html>
