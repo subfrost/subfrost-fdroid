@@ -16,5 +16,9 @@ __pycache__/
 .vscode/
 *.swp
 
-# Don't ignore repo directory - it contains the F-Droid index
-!repo/
+# Don't ignore fdroid directory - it contains the F-Droid index
+!fdroid/
+
+# Node.js
+node_modules/
+dist/
