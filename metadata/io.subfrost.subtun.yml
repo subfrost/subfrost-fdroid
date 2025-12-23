@@ -26,8 +26,8 @@ Description: |
 RepoType: git
 Repo: https://github.com/subfrost/subfrost-native
 
-CurrentVersion: 0.1.0
-CurrentVersionCode: 1
+CurrentVersion: 0.1.2
+CurrentVersionCode: 2
 
 Builds: []
 
