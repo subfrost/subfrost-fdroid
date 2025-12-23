@@ -1,6 +1,6 @@
 Categories:
+  - Money
   - Security
-  - Internet
 
 License: GPL-3.0-or-later
 AuthorName: Subfrost
@@ -11,17 +11,22 @@ IssueTracker: https://github.com/subfrost/subfrost-native/issues
 
 AutoName: SUBFROST
 
-Summary: Secure VPN tunnel powered by Subfrost
+Summary: P2P Bitcoin wallet with yield on dxBTC
 
 Description: |
-  SUBFROST is a high-performance VPN application built on the Subfrost
-  protocol. It provides secure, encrypted tunneling for your Android device.
+  SUBFROST is a peer-to-peer Bitcoin wallet powered by the Subfrost protocol.
+  Deposit BTC, convert to dxBTC, and earn yield through decentralized finance.
 
   Features:
-  * Fast and reliable VPN connection
-  * Modern cryptographic protocols
-  * Privacy-focused design
-  * Open source and auditable
+  * P2P Bitcoin transactions - no intermediaries
+  * dxBTC - wrapped Bitcoin that earns yield
+  * Decentralized network - connects directly to peers
+  * Privacy-focused - your keys, your coins
+  * Integrated secure tunnel for network privacy
+  * Open source and fully auditable
+
+  SUBFROST connects you to a decentralized network of peers, enabling
+  trustless Bitcoin operations without relying on centralized servers.
 
 RepoType: git
 Repo: https://github.com/subfrost/subfrost-native
