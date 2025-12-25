@@ -1,9 +1,40 @@
-AuthorName: ''
 Categories:
-- fdroid
-CurrentVersionCode: 2147483647
-IssueTracker: ''
-Name: SUBFROST
-SourceCode: ''
-Summary: ''
-WebSite: ''
+  - Money
+  - Security
+
+License: GPL-3.0-or-later
+AuthorName: Subfrost
+AuthorEmail: support@subfrost.io
+WebSite: https://subfrost.io
+SourceCode: https://github.com/subfrost/subfrost-native
+IssueTracker: https://github.com/subfrost/subfrost-native/issues
+
+AutoName: SUBFROST
+
+Summary: P2P Bitcoin wallet with yield on dxBTC
+
+Description: |
+  SUBFROST is a peer-to-peer Bitcoin wallet powered by the Subfrost protocol.
+  Deposit BTC, convert to dxBTC, and earn yield through decentralized finance.
+
+  Features:
+  * P2P Bitcoin transactions - no intermediaries
+  * dxBTC - wrapped Bitcoin that earns yield
+  * Decentralized network - connects directly to peers
+  * Privacy-focused - your keys, your coins
+  * Integrated secure tunnel for network privacy
+  * Open source and fully auditable
+
+  SUBFROST connects you to a decentralized network of peers, enabling
+  trustless Bitcoin operations without relying on centralized servers.
+
+RepoType: git
+Repo: https://github.com/subfrost/subfrost-native
+
+CurrentVersion: 0.1.3
+CurrentVersionCode: 3
+
+Builds: []
+
+AutoUpdateMode: None
+UpdateCheckMode: None
