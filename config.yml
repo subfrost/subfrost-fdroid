@@ -21,9 +21,6 @@ repo_keyalias: "fdroid"
 # Accept pre-signed APKs
 allow_disabled_algorithms: true
 
-# SDK tools
-apksigner: "/data/android-sdk/build-tools/35.0.0/apksigner"
-
 # App categories
 categories:
   - VPN
