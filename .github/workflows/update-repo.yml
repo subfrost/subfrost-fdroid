@@ -45,11 +45,14 @@ jobs:
         GH_TOKEN: ${{ secrets.SUBFROST_ACCESS_TOKEN }}
       run: |
         VERSION="${{ github.event.inputs.version || github.event.client_payload.version }}"
+        # Extract version code from tag (e.g., v0.1.4 -> need to get versionCode)
+        # For now, use a simple counter based on version
+        VERSION_NUM="${VERSION#v}"
 
         echo "Downloading APK for version: $VERSION"
 
-        # Remove old APKs and download new one
-        rm -f repo/*.apk
+        # Create repo directory if it doesn't exist
+        mkdir -p repo
 
         # Use gh to download from private repo
         gh release download "$VERSION" \
@@ -57,7 +60,7 @@ jobs:
           --pattern "app-universal-release-aligned-signed.apk" \
           --dir repo/
 
-        # Rename to include version for F-Droid
+        # Rename to include version code for F-Droid (use VERSION_NUM for now)
         mv repo/app-universal-release-aligned-signed.apk "repo/io.subfrost.subtun_${VERSION}.apk"
         ls -la repo/
 
@@ -79,6 +82,13 @@ jobs:
         export PATH="$ANDROID_HOME/build-tools/35.0.0:$PATH"
         fdroid update --create-metadata --allow-disabled-algorithms
 
+    - name: Sync to tracked fdroid directory
+      run: |
+        # repo/ is gitignored, fdroid/repo/ is tracked
+        rsync -av repo/ fdroid/repo/
+        rsync -av metadata/ fdroid/metadata/ 2>/dev/null || true
+        ls -la fdroid/repo/
+
     - name: Commit and push changes
       run: |
         VERSION="${{ github.event.inputs.version || github.event.client_payload.version }}"
@@ -91,7 +101,7 @@ jobs:
 
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
-        git add repo/ metadata/
+        git add fdroid/
         git commit -m "Update F-Droid repo for ${VERSION}" || echo "No changes to commit"
         git push
 
