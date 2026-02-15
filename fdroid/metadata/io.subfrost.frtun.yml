@@ -37,8 +37,8 @@ Description: |
 RepoType: git
 Repo: https://github.com/subfrost/frtun-android
 
-CurrentVersion: 0.1.0
-CurrentVersionCode: 1
+CurrentVersion: 0.2.0
+CurrentVersionCode: 2
 
 Builds: []
 
