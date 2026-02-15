@@ -6,9 +6,18 @@ on:
       version:
         description: 'Version tag (e.g., v0.1.0)'
         required: true
-      apk_url:
-        description: 'URL to download the APK from'
+      source_repo:
+        description: 'Source repo for APK download (e.g., subfrost/subfrost-native)'
         required: true
+        default: 'subfrost/subfrost-native'
+      app_id:
+        description: 'App package ID (e.g., io.subfrost.subtun)'
+        required: true
+        default: 'io.subfrost.subtun'
+      apk_pattern:
+        description: 'APK filename pattern for gh release download'
+        required: true
+        default: 'app-universal-release-aligned-signed.apk'
   repository_dispatch:
     types: [update-repo]
 
@@ -40,29 +49,61 @@ jobs:
     - name: Install fdroidserver
       run: pip install fdroidserver
 
+    - name: Resolve parameters
+      id: params
+      run: |
+        # Support both workflow_dispatch inputs and repository_dispatch payload
+        VERSION="${{ github.event.inputs.version || github.event.client_payload.version }}"
+        SOURCE_REPO="${{ github.event.inputs.source_repo || github.event.client_payload.source_repo }}"
+        APP_ID="${{ github.event.inputs.app_id || github.event.client_payload.app_id }}"
+        APK_PATTERN="${{ github.event.inputs.apk_pattern || github.event.client_payload.apk_pattern }}"
+
+        # Defaults for repository_dispatch if not provided
+        SOURCE_REPO="${SOURCE_REPO:-subfrost/subfrost-native}"
+        APP_ID="${APP_ID:-io.subfrost.subtun}"
+        APK_PATTERN="${APK_PATTERN:-app-universal-release-aligned-signed.apk}"
+
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "source_repo=$SOURCE_REPO" >> $GITHUB_OUTPUT
+        echo "app_id=$APP_ID" >> $GITHUB_OUTPUT
+        echo "apk_pattern=$APK_PATTERN" >> $GITHUB_OUTPUT
+
+        echo "Publishing $APP_ID $VERSION from $SOURCE_REPO (pattern: $APK_PATTERN)"
+
     - name: Download APK
       env:
         GH_TOKEN: ${{ secrets.SUBFROST_ACCESS_TOKEN }}
       run: |
-        VERSION="${{ github.event.inputs.version || github.event.client_payload.version }}"
-        # Extract version code from tag (e.g., v0.1.4 -> need to get versionCode)
-        # For now, use a simple counter based on version
-        VERSION_NUM="${VERSION#v}"
+        VERSION="${{ steps.params.outputs.version }}"
+        SOURCE_REPO="${{ steps.params.outputs.source_repo }}"
+        APP_ID="${{ steps.params.outputs.app_id }}"
+        APK_PATTERN="${{ steps.params.outputs.apk_pattern }}"
 
-        echo "Downloading APK for version: $VERSION"
+        echo "Downloading APK for $APP_ID $VERSION from $SOURCE_REPO"
 
-        # Create repo directory if it doesn't exist
         mkdir -p repo
 
-        # Use gh to download from private repo
         gh release download "$VERSION" \
-          --repo subfrost/subfrost-native \
-          --pattern "app-universal-release-aligned-signed.apk" \
+          --repo "$SOURCE_REPO" \
+          --pattern "$APK_PATTERN" \
           --dir repo/
 
-        # Rename to include version code for F-Droid (use VERSION_NUM for now)
-        mv repo/app-universal-release-aligned-signed.apk "repo/io.subfrost.subtun_${VERSION}.apk"
+        # Rename to F-Droid convention: {app_id}_{version}.apk
+        mv "repo/$APK_PATTERN" "repo/${APP_ID}_${VERSION}.apk"
         ls -la repo/
+
+    - name: Copy metadata
+      run: |
+        APP_ID="${{ steps.params.outputs.app_id }}"
+
+        # Copy our curated metadata into the working metadata dir
+        mkdir -p metadata
+        if [ -f "metadata/${APP_ID}.yml" ]; then
+          echo "Found metadata for $APP_ID"
+          cat "metadata/${APP_ID}.yml"
+        else
+          echo "Warning: No metadata/${APP_ID}.yml found, fdroid will auto-generate"
+        fi
 
     - name: Restore keystore from secrets
       env:
@@ -76,6 +117,14 @@ jobs:
         # Update config with passwords
         sed -i "s/keystorepass:.*/keystorepass: \"$FDROID_KEYSTORE_PASS\"/" config.yml
         sed -i "s/keypass:.*/keypass: \"$FDROID_KEY_PASS\"/" config.yml
+
+    - name: Restore existing repo from tracked directory
+      run: |
+        # Copy previously tracked repo files into working repo/ dir
+        # so fdroid update sees all existing APKs + the new one
+        if [ -d fdroid/repo ]; then
+          rsync -av fdroid/repo/ repo/ --ignore-existing
+        fi
 
     - name: Update F-Droid repository index
       run: |
@@ -91,7 +140,8 @@ jobs:
 
     - name: Commit and push changes
       run: |
-        VERSION="${{ github.event.inputs.version || github.event.client_payload.version }}"
+        VERSION="${{ steps.params.outputs.version }}"
+        APP_ID="${{ steps.params.outputs.app_id }}"
 
         # Remove keystore before commit (it's in secrets)
         rm -rf keystore/
@@ -101,8 +151,8 @@ jobs:
 
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
-        git add fdroid/
-        git commit -m "Update F-Droid repo for ${VERSION}" || echo "No changes to commit"
+        git add fdroid/ metadata/
+        git commit -m "Update F-Droid repo: ${APP_ID} ${VERSION}" || echo "No changes to commit"
         git push
 
     - name: Trigger Pages rebuild
