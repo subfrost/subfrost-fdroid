@@ -42,9 +42,6 @@ mkdir -p "${REPO_DIR}/icons"
 for dpi in 120 160 240 320 480 640; do
     mkdir -p "${REPO_DIR}/icons-${dpi}"
 done
-if [ -f /var/www/fdroid/assets/icon.png ]; then
-    cp -n /var/www/fdroid/assets/icon.png "${REPO_DIR}/icons/icon.png" 2>/dev/null || true
-fi
 
 # Run fdroid update only if there are APKs and the existing index is stale.
 if [ -f "${KEYS_DIR}/fdroid.keystore" ] && ls "${REPO_DIR}"/*.apk 1>/dev/null 2>&1; then
@@ -58,6 +55,13 @@ if [ -f "${KEYS_DIR}/fdroid.keystore" ] && ls "${REPO_DIR}"/*.apk 1>/dev/null 2>
         echo "[fdroid] running fdroid update (index ts=${INDEX_TS} < newest apk ts=${NEWEST_APK_TS})"
         fdroid update --create-metadata --verbose 2>&1 || echo "[fdroid] update failed (continuing to serve)"
     fi
+fi
+
+# Always restore the real repo icon AFTER fdroid update — fdroidserver
+# clobbers repo/icons/icon.png with a 370x370 placeholder during the
+# index-build pass, so we put our SUBFROST logo back unconditionally.
+if [ -f /var/www/fdroid/assets/icon.png ]; then
+    cp -f /var/www/fdroid/assets/icon.png "${REPO_DIR}/icons/icon.png" 2>/dev/null || true
 fi
 
 if [ -f "${REPO_DIR}/index-v1.json" ]; then
