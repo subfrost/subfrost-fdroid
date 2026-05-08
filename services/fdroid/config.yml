@@ -1,0 +1,32 @@
+repo_url: https://f-droid.subfrost.io/repo
+repo_name: Subfrost
+repo_icon: icon.png
+repo_description: |
+  Official F-Droid repository for Subfrost applications.
+  Privacy-first overlay networking, P2P Bitcoin, and more.
+
+archive_url: https://f-droid.subfrost.io/archive
+archive_name: Subfrost Archive
+archive_description: Older versions of Subfrost apps
+archive_older: 3
+
+keystore: /fdroid/keys/fdroid.keystore
+repo_keyalias: fdroid
+keystorepass:
+  env: FDROID_KEY_STORE_PASS
+keypass:
+  env: FDROID_KEY_PASS
+keydname: CN=Subfrost, O=Subfrost
+
+apksigner: /usr/bin/apksigner
+
+build_server_always: false
+update_stats: false
+
+categories:
+  - VPN
+  - Security
+  - Privacy
+  - Money
+  - Internet
+  - Connectivity

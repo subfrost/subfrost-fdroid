@@ -20,9 +20,9 @@ __pycache__/
 node_modules/
 dist/
 
-# Ignore working repo directory (fdroid/repo is the published one)
-/repo/
-
-# Don't ignore fdroid directory - it contains the F-Droid index
-!fdroid/
-!fdroid/repo/
+# Terraform working state — provider plugins and local state cache
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+terraform/*.tfplan
+terraform/terraform.tfstate*
+terraform/crash.log
