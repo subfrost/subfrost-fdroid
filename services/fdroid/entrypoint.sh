@@ -63,7 +63,7 @@ fi
 if [ -f "${REPO_DIR}/index-v1.json" ]; then
     cp "${REPO_DIR}/index-v1.json" /var/www/fdroid/api/index.json
 elif [ ! -f /var/www/fdroid/api/index.json ]; then
-    echo '{"repo":{"name":"Subfrost","description":"Subfrost F-Droid repository","timestamp":0},"apps":[]}' > /var/www/fdroid/api/index.json
+    echo '{"repo":{"name":"SUBFROST","description":"Official F-Droid repository for SUBFROST.","timestamp":0},"apps":[]}' > /var/www/fdroid/api/index.json
 fi
 
 exec nginx -g 'daemon off;'

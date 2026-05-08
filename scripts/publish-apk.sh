@@ -72,10 +72,10 @@ cd "${MOUNT}"
 [ -f config.yml ] && cp -f config.yml config.yml.bak
 cat > config.yml <<EOF
 repo_url: https://f-droid.subfrost.io/repo
-repo_name: Subfrost
-repo_description: Subfrost F-Droid repository
+repo_name: SUBFROST
+repo_description: Official F-Droid repository for SUBFROST.
 archive_url: https://f-droid.subfrost.io/archive
-archive_name: Subfrost Archive
+archive_name: SUBFROST Archive
 archive_older: 3
 keystore: ${KEYSTORE}
 repo_keyalias: ${FDROID_KEY_ALIAS:-${KEY_ALIAS}}
